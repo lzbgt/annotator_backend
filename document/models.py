@@ -14,6 +14,7 @@ class Document(models.Model):
 
     class Meta:
         db_table = 'document'
+        indexes = [models.Index(fields=['ready',])]
 
 # auxiliary class
 class AnnoValueChoice(IntegerEnum):

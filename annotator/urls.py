@@ -23,7 +23,7 @@ from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('docs/', include_docs_urls(title='文本标注系统在线API文档')),
+    path('docs/', include_docs_urls(title='文本标注系统在线API文档', public=False)),
     path('api/rest-auth/', include('rest_auth.urls')),
     path('api/project/', pviews.ListProject.as_view(), name='project-list'),
     path('api/project/<int:pk>/', pviews.DetailProject.as_view(), name='project-detail'),
@@ -35,5 +35,7 @@ urlpatterns = [
     path('api/document/<int:doc_id>/annotation/<int:id>', dviews.DetailAnnotationByDocument.as_view()),
     path('api/annotation/', dviews.ListAnnotation.as_view()),
     path('api/annotation/<int:id>', dviews.DetailAnnotation.as_view()),
-    path('api/tasks/', views.tasks, name="tasks")
+    path('api/tasks/', views.tasks, name="tasks"),
+    path('api/document_bulk_del/', dviews.BulkDocumentDelete),
+    path('api/annotation_bulk_del/', dviews.BulkAnnotationDelete),
 ]

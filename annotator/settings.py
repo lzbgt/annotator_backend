@@ -177,9 +177,9 @@ import ldap
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 # We use a dedicated user to bind to the LDAP server and execute the server.
-AUTH_LDAP_SERVER_URI = "ldap://202.101.161.211:389"
+AUTH_LDAP_SERVER_URI = "ldap://192.168.1.11:389"
 AUTH_LDAP_BIND_DN ="CN=administrator,cn=users,DC=DFWSGROUP,DC=COM"
-AUTH_LDAP_BIND_PASSWORD = "DFws.2015"
+AUTH_LDAP_BIND_PASSWORD = "DFws.abc123"
 AUTH_LDAP_CONNECTION_OPTIONS = {
     ldap.OPT_DEBUG_LEVEL: 0,
     ldap.OPT_REFERRALS: 0,
