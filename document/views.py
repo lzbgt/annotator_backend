@@ -121,7 +121,7 @@ def BulkAnnotationAdd(request):
     MAX_BULK_SIZE = 100
     annos=request.data.get('annos')
     if not annos:
-        return Response({'code': 400, 'msg': '{}'.format(data.errors)})
+        return Response({'code': 400, 'msg': ''})
     sz = len(annos)
     if sz > MAX_BULK_SIZE or sz == 0:
         return Response({'code': 400, 'msg': 'invalid size: {}, must in range (0, {})'.format(sz, MAX_BULK_SIZE)}, status=400)
