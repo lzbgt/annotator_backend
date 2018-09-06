@@ -32,7 +32,7 @@ class DetailAnnotation(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = models.AnnotationSerializer
 
     def get_object(self):
-        return self.queryset.filter.get(id=self.kwargs['id'])
+        return self.queryset.get(id=self.kwargs['id'])
 
 # real functional view functions
 class ListDocumentByProject(generics.ListCreateAPIView):
