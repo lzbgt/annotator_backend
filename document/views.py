@@ -87,6 +87,7 @@ class BulkDeleteSerializer(serializers.Serializer):
     ids = serializers.ListField(child=serializers.IntegerField())
 
 
+# post: {'ids': [1,2,3]}
 @api_view(['POST'])
 def BulkDocumentDelete(request):
     try:
@@ -114,5 +115,35 @@ def BulkAnnotationDelete(request):
         return Response({'code':500, 'msg': '{}'.format(e)}, status=500)
 
 
+# post: {'annos':[{doc_id, 2, 4, -1}, ]}
+@api_view(['POST'])
+def BulkAnnotationAdd(request):
+    MAX_BULK_SIZE = 100
+    annos=request.data.get('annos')
+    if not annos:
+        return Response({'code': 400, 'msg': '{}'.format(data.errors)})
+    sz = len(annos)
+    if sz > MAX_BULK_SIZE or sz == 0:
+        return Response({'code': 400, 'msg': 'invalid size: {}, must in range (0, {})'.format(sz, MAX_BULK_SIZE)}, status=400)
 
+    try:
+        objs = [models.Annotation(doc=models.Document.objects.get(id=e['doc']), pos_x = e['pos_x'], pos_y=e['pos_y'], value=e['value'],id=e.get('id')) for e in annos]
+    except Exception as e:
+        return Response({'code': 400, 'msg': '{}'.format(e)})
+
+    update = []
+    create = []
+    for o in objs:
+        if o.id is None:
+            create.append(o)
+        else:
+            update.append(o)
+
+    try:
+        models.Annotation.objects.bulk_create(create)
+        for u in update:
+            u.save()
+        return Response({'code':200, 'msg':''}, status=200)
+    except Exception as e:
+        return Response({'code': 400, 'msg': '{}'.format(e)})
 

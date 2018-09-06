@@ -38,4 +38,5 @@ urlpatterns = [
     path('api/tasks/', views.tasks, name="tasks"),
     path('api/document_bulk_del/', dviews.BulkDocumentDelete),
     path('api/annotation_bulk_del/', dviews.BulkAnnotationDelete),
+    path('api/annotation_bulk_new/', dviews.BulkAnnotationAdd),
 ]
