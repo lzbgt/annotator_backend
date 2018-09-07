@@ -20,7 +20,6 @@ from project import views as pviews
 from . import views as views
 from rest_framework.documentation import include_docs_urls
 
-
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('docs/', include_docs_urls(title='文本标注系统在线API文档', public=False)),
