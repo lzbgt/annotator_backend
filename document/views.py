@@ -101,6 +101,34 @@ def BulkDocumentDelete(request):
     except Exception as e:
         return Response({'code':500, 'msg': '{}'.format(e)}, status=500)
 
+def str2bool(v):
+    return v.lower() in ("yes", "true", "t", "1")
+
+# post: {'ids': [1,2,3]}
+@api_view(['POST'])
+def BulkDocumentReady(request):
+    try:
+        docs_serializer = BulkDeleteSerializer(data=request.data)
+        docs_serializer.is_valid(raise_exception=True)
+        doc_ids = docs_serializer.data['ids']
+
+        ready = request.query_params.get('ready')
+        ret = Response({'code': 400, 'msg': 'invalid ready param'}, status=400)
+        valid = False
+        if ready is None:
+            valid = False
+        else:
+            if ready in ['True', 'true', 'False', 'false', '0', '1']:
+                valid = True
+
+        if valid:
+            docs = models.Document.objects.filter(pk__in=doc_ids).update(ready=str2bool(ready))
+            return Response(status=204)
+        else:
+            return ret
+    except Exception as e:
+        return Response({'code':500, 'msg': '{}'.format(e)}, status=500)
+
 @api_view(['POST'])
 def BulkAnnotationDelete(request):
     try:
